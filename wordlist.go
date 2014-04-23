@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"math/rand"
 	"os"
 	"strings"
@@ -32,8 +31,6 @@ func LoadWordList(wordLength int) (WordList, error) {
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
-
-	fmt.Println(wordList)
 
 	return wordList, err
 }
