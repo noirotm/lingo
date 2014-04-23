@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"io"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -32,13 +33,14 @@ func NewGame(wordLength int, wordList WordList, playerProgram string) *LingoGame
 	}
 }
 
+// checkWord determines the letters that are placed correctly or not within the guess
 func checkWord(word string, guess string) string {
 	var buffer bytes.Buffer
-	for i := 0; i < len(guess); i++ {
-		if word[i] == guess[i] {
+	for i, b := range []byte(guess) {
+		if word[i] == b {
 			// exact guess
 			buffer.WriteByte('O')
-		} else if strings.IndexByte(word, guess[i]) != -1 {
+		} else if strings.IndexByte(word, b) != -1 {
 			// byte in string at another position
 			buffer.WriteByte('?')
 		} else {
@@ -49,6 +51,13 @@ func checkWord(word string, guess string) string {
 	return buffer.String()
 }
 
+func writeLine(out io.Writer, line []byte) {
+	out.Write(line)
+	out.Write([]byte("\n"))
+	fmt.Println("Sent: ", string(line))
+}
+
+// PlayRound runs the player program and plays a round till the word is found or no more attempts remain
 func (p *LingoGame) PlayRound() (int, error) {
 	// initialize round
 	currentWord := p.wordList.RandomWord()
@@ -76,9 +85,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 	score := 0
 	for roundAttempts = 0; roundAttempts < p.wordLength; roundAttempts++ {
 		// send word mask
-		stdin.Write(wordMask)
-		stdin.Write([]byte("\n"))
-		fmt.Println("Sent: ", string(wordMask))
+		writeLine(stdin, wordMask)
 
 		// get word guess
 		if !in.Scan() {
@@ -92,9 +99,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 
 		// check whether word is valid, if not, send a full error response
 		if len(guess) == 0 || !p.wordList.Contains(guess) {
-			stdin.Write([]byte(strings.Repeat("X", p.wordLength)))
-			stdin.Write([]byte("\n"))
-			fmt.Println("Sent: ", strings.Repeat("X", p.wordLength))
+			writeLine(stdin, []byte(strings.Repeat("X", p.wordLength)))
 			continue
 		}
 
@@ -108,9 +113,8 @@ func (p *LingoGame) PlayRound() (int, error) {
 			}
 		}
 
-		stdin.Write([]byte(attemptMask))
-		stdin.Write([]byte("\n"))
-		fmt.Println("Sent: ", string(attemptMask))
+		// send word mask with discovered characters
+		writeLine(stdin, []byte(attemptMask))
 
 		// break if word has been found
 		// calculate score, we get points only if mask is equal to the word to guess
