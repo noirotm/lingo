@@ -48,5 +48,5 @@ func main() {
 		totalScore += score
 	}
 
-	fmt.Println("Total score is", totalScore)
+	fmt.Println("\nTotal score is", totalScore, "/", wordLength*wordLength*10)
 }
