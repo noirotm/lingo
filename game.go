@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"os/exec"
@@ -88,7 +89,11 @@ func (p *LingoGame) PlayRound() (int, error) {
 			stdin.Close()
 			stdout.Close()
 			player.Wait()
-			return 0, in.Err()
+			readError := in.Err()
+			if readError == nil {
+				readError = errors.New("Player program ended unexpectedly")
+			}
+			return 0, readError
 		}
 		guess := in.Text()
 		fmt.Println("Got:  ", guess)
@@ -108,7 +113,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 		// break if word has been found
 		// calculate score, we get points only if mask is equal to the word to guess
 		if attemptMask == strings.Repeat("O", p.wordLength) {
-			score = p.wordLength - roundAttempts
+			score = 100 * (p.wordLength - roundAttempts)
 			fmt.Println("Round won with score", score)
 			break
 		}

@@ -32,7 +32,8 @@ func main() {
 
 	wordList, err := LoadWordList(wordLength)
 	if err != nil {
-		panic(err)
+		fmt.Println("Error:", err)
+		return
 	}
 
 	game := NewGame(wordLength, wordList, player)
@@ -42,11 +43,12 @@ func main() {
 	for i := 0; i < rounds; i++ {
 		score, err := game.PlayRound()
 		if err != nil {
-			panic(err)
+			fmt.Println("Error:", err)
+			return
 		}
 
 		totalScore += score
 	}
 
-	fmt.Println("\nTotal score is", totalScore, "/", wordLength*wordLength)
+	fmt.Println("\nTotal score:", totalScore, "/", 100*wordLength*rounds)
 }
