@@ -12,7 +12,7 @@ len.times do
   # exclude last guess
   words.delete(guess)
   
-  result.split('').each_with_index do |c, i|
+  result.chars.each_with_index do |c, i|
     # exclude words not matching good guesses
     words.reject! { |w| c == 'O' && w[i] != guess[i] }
   
