@@ -4,7 +4,10 @@ len = ARGV[0].to_i
 words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
 
 len.times do
-  guess = words.sample
+  # we need a good word to guess, namely one with great letter
+  # variety so we get more meaningful information
+  guess = words.max_by { |w| w.chars.uniq.length }
+
   puts guess
   
   result = $stdin.gets.chomp
@@ -12,7 +15,7 @@ len.times do
   # exclude last guess
   words.delete(guess)
   
-  result.split('').each_with_index do |c, i|
+  result.chars.each_with_index do |c, i|
     # exclude words not matching good guesses
     words.reject! { |w| c == 'O' && w[i] != guess[i] }
   
