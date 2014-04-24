@@ -3,24 +3,23 @@ len = ARGV[0].to_i
 
 words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
 
-last_word = nil
-
 len.times do
-  mask = $stdin.gets.chomp
- 
-  last_word = words.sample
-  puts last_word
+  guess = words.sample
+  puts guess
   
-  errors = $stdin.gets.chomp
+  result = $stdin.gets.chomp
   
-  errors.split('').each_with_index do |c, i|
-    # exclude words not matching goog guesses
-    words.reject! { |w| c == 'O' && w[i] != last_word[i] }
+  # exclude last guess
+  words.delete(guess)
+  
+  result.split('').each_with_index do |c, i|
+    # exclude words not matching good guesses
+    words.reject! { |w| c == 'O' && w[i] != guess[i] }
   
     # exclude words not containing misplaced letters
-    words.reject! { |w| c == '?' && w.index(last_word[i]).nil? }
+    words.reject! { |w| c == '?' && w.index(guess[i]).nil? }
     
     # exclude words containing wrong letters
-    words.reject! { |w| c == 'X' && !w.index(last_word[i]).nil? }
+    words.reject! { |w| c == 'X' && !w.index(guess[i]).nil? }
   end
 end

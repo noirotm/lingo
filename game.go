@@ -61,7 +61,6 @@ func writeLine(out io.Writer, line []byte) {
 func (p *LingoGame) PlayRound() (int, error) {
 	// initialize round
 	currentWord := p.wordList.RandomWord()
-	wordMask := bytes.Repeat([]byte("."), p.wordLength)
 
 	fmt.Println("Starting new round, word is", currentWord)
 
@@ -84,9 +83,6 @@ func (p *LingoGame) PlayRound() (int, error) {
 	var roundAttempts int
 	score := 0
 	for roundAttempts = 0; roundAttempts < p.wordLength; roundAttempts++ {
-		// send word mask
-		writeLine(stdin, wordMask)
-
 		// get word guess
 		if !in.Scan() {
 			stdin.Close()
@@ -106,19 +102,12 @@ func (p *LingoGame) PlayRound() (int, error) {
 		// check letter positions and send guess mask
 		attemptMask := checkWord(currentWord, guess)
 
-		// update word mask with found letters
-		for i, b := range []byte(attemptMask) {
-			if b == 'O' {
-				wordMask[i] = currentWord[i]
-			}
-		}
-
 		// send word mask with discovered characters
 		writeLine(stdin, []byte(attemptMask))
 
 		// break if word has been found
 		// calculate score, we get points only if mask is equal to the word to guess
-		if currentWord == string(wordMask) {
+		if attemptMask == strings.Repeat("O", p.wordLength) {
 			score = 10 * (p.wordLength - roundAttempts)
 			fmt.Println("Round won with score", score)
 			break
