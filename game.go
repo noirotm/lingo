@@ -113,7 +113,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 		// break if word has been found
 		// calculate score, we get points only if mask is equal to the word to guess
 		if attemptMask == strings.Repeat("O", p.wordLength) {
-			score = 100 * (p.wordLength - roundAttempts)
+			score = 10 * (p.wordLength - roundAttempts)
 			fmt.Println("Round won with score", score)
 			break
 		}

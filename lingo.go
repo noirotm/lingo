@@ -13,13 +13,8 @@ var (
 
 func init() {
 	flag.IntVar(&rounds, "rounds", 1, "number of rounds to play")
-	flag.IntVar(&rounds, "r", 1, "number of rounds to play")
-
 	flag.IntVar(&wordLength, "length", 5, "word length")
-	flag.IntVar(&wordLength, "l", 5, "word length")
-
 	flag.StringVar(&player, "player", "", "player program to execute")
-	flag.StringVar(&player, "p", "", "player program to execute")
 }
 
 func main() {
@@ -50,5 +45,5 @@ func main() {
 		totalScore += score
 	}
 
-	fmt.Println("\nTotal score:", totalScore, "/", 100*wordLength*rounds)
+	fmt.Println("\nTotal score:", totalScore, "/", 10*wordLength*rounds)
 }
