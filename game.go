@@ -60,9 +60,8 @@ func writeLine(out io.Writer, line []byte) {
 
 // PlayRound runs the player program and plays a round till the word is found or no more attempts remain
 func (p *LingoGame) PlayRound() (int, error) {
-	// initialize round
+	// initialize round's word
 	currentWord := p.wordList.RandomWord()
-
 	fmt.Println("Starting new round, word is", currentWord)
 
 	// start player program
@@ -79,6 +78,13 @@ func (p *LingoGame) PlayRound() (int, error) {
 		return 0, err
 	}
 
+	// wait for program exit when this function returns
+	defer func() {
+		stdin.Close()
+		stdout.Close()
+		player.Wait()
+	}()
+
 	// round loop, as many attempts as the word length
 	in := bufio.NewScanner(stdout)
 	var roundAttempts int
@@ -86,9 +92,6 @@ func (p *LingoGame) PlayRound() (int, error) {
 	for roundAttempts = 0; roundAttempts < p.wordLength; roundAttempts++ {
 		// get word guess
 		if !in.Scan() {
-			stdin.Close()
-			stdout.Close()
-			player.Wait()
 			readError := in.Err()
 			if readError == nil {
 				readError = errors.New("Player program ended unexpectedly")
@@ -118,11 +121,6 @@ func (p *LingoGame) PlayRound() (int, error) {
 			break
 		}
 	}
-
-	// wait for program exit
-	stdin.Close()
-	stdout.Close()
-	player.Wait()
 
 	if score == 0 {
 		fmt.Println("Round lost")
