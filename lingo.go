@@ -45,5 +45,5 @@ func main() {
 		totalScore += score
 	}
 
-	fmt.Println("\nTotal score:", totalScore, "/", 10*MAX_ATTEMPTS*rounds)
+	fmt.Println("\nTotal score:", totalScore, "/", 100*MAX_ATTEMPTS*rounds)
 }

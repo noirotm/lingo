@@ -37,6 +37,7 @@ func NewGame(wordLength int, wordList WordList, playerProgram string) *LingoGame
 }
 
 // checkWord determines the letters that are placed correctly or not within the guess
+// TODO do not give positive answers for guesses' extra occurences of letters
 func checkWord(word string, guess string) string {
 	var buffer bytes.Buffer
 	for i, b := range []byte(guess) {
@@ -118,7 +119,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 		// break if word has been found
 		// calculate score, we get points only if mask is equal to the word to guess
 		if attemptMask == strings.Repeat("O", p.wordLength) {
-			score = 10 * (MAX_ATTEMPTS - roundAttempts)
+			score = 100 * (MAX_ATTEMPTS - roundAttempts)
 			fmt.Println("Round won with score", score)
 			break
 		}
