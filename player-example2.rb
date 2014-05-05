@@ -3,7 +3,7 @@ len = ARGV[0].to_i
 
 words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
 
-len.times do
+5.times do
   guess = words.sample
   puts guess
   

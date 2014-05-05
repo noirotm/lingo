@@ -3,7 +3,7 @@ len = ARGV[0].to_i
 
 words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
 
-len.times do
+5.times do
   # we need a good word to guess, namely one with great letter
   # variety so we get more meaningful information
   guess = words.max_by { |w| w.chars.uniq.length }

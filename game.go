@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+const MAX_ATTEMPTS = 5
+
 // LingoGame represents the game itself
 type LingoGame struct {
 	wordLength    int
@@ -89,7 +91,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 	in := bufio.NewScanner(stdout)
 	var roundAttempts int
 	score := 0
-	for roundAttempts = 0; roundAttempts < p.wordLength; roundAttempts++ {
+	for roundAttempts = 0; roundAttempts < MAX_ATTEMPTS; roundAttempts++ {
 		// get word guess
 		if !in.Scan() {
 			readError := in.Err()
@@ -116,7 +118,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 		// break if word has been found
 		// calculate score, we get points only if mask is equal to the word to guess
 		if attemptMask == strings.Repeat("O", p.wordLength) {
-			score = 10 * (p.wordLength - roundAttempts)
+			score = 10 * (MAX_ATTEMPTS - roundAttempts)
 			fmt.Println("Round won with score", score)
 			break
 		}
