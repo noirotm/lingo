@@ -4,11 +4,11 @@ PLAYERS = [
   "ruby player-example3.rb"
 ]
 LENGTHS = 4..13
-ROUNDS = 30
+ROUNDS = 100
 
 print "\t\t"
 LENGTHS.each { |l| print "\t#{l}" }
-puts "\tAverage"
+puts "\tTotal"
 
 PLAYERS.each do |player|
   print player
@@ -16,9 +16,9 @@ PLAYERS.each do |player|
   LENGTHS.each do |n|
     output = `lingo.exe -rounds #{ROUNDS} -length #{n} -player "#{player}"`
     m = output.split("\n")[-1].match(/(\d+) \/ (\d+)/)
-    score = (100 * m[1].to_f / m[2].to_f).round(2)
+    score = m[1].to_i
     print "\t#{score}"
     player_score += score
   end
-  puts "\t#{(player_score / LENGTHS.count.to_f).round(2)}"
+  puts "\t#{player_score}"
 end
