@@ -5,7 +5,7 @@ It is based on the concept of the Lingo TV show ([http://en.wikipedia.org/wiki/L
 
 ## Rules ##
 
-Given a word length given as the first argument on its command line, the player program disposes of **five** attempts to guess the word by writing a guess on its standard output followed by a single `\n` character. Strings should only be comprised of alphabetic lower case characters (`[a-z]`).
+Given a word length given as the first argument on its command line, the player program disposes of **five** attempts to guess the word by writing a guess on its standard output followed by a single `\n` character. Guessed should only be comprised of alphabetic lower case characters (`[a-z]`).
 
 After a guess is made, the program receives a string on its standard input, also followed by a single `\n` character.
 
