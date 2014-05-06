@@ -1,4 +1,4 @@
-# Guess a word (aka Lingo) #
+# Guess the word (aka Lingo) #
 
 This is a king-of-the-hill challenge for [http://codegolf.stackexchange.com/](http://codegolf.stackexchange.com/).
 
@@ -31,4 +31,4 @@ Edit the `pit.rb` file to add your entry.
 
 Your program will be run in the current directory and will be given the length of the word to guess as first argument on the command line.
 
-Be careful to flush your output to `STDOUT` otherwise the game engine might wait for guesses indefinitly.
+Be careful to flush your output to `STDOUT`, otherwise the game engine might wait for guesses indefinitly.
