@@ -1,4 +1,4 @@
-# Guess a word (aka Lingo) #
+# Guess the word (aka Lingo) #
 
 The goal of this challenge is to write a program able to guess a word in the smallest possible number of attempts.
 It is based on the concept of the Lingo TV show ([http://en.wikipedia.org/wiki/Lingo_(U.S._game_show)](http://en.wikipedia.org/wiki/Lingo_(U.S._game_show))).
