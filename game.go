@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -38,8 +39,19 @@ func NewGame(wordLength int, wordList WordList, playerProgram string) *LingoGame
 
 // checkWord determines the letters that are placed correctly or not within the guess
 func checkWord(word string, guess string) string {
-	var buffer bytes.Buffer
+	result := bytes.Repeat([]byte("X"), len(word))
 	found_indexes := make(map[byte]int)
+
+	// check for correct guesses
+	for i, b := range []byte(guess) {
+		if word[i] == b {
+			// exact guess
+			found_indexes[b] = i
+			result[i] = 'O'
+		}
+	}
+
+	// check for misplaced guesses
 	for i, b := range []byte(guess) {
 		// last index where the letter was found
 		last_index, ok := found_indexes[b]
@@ -47,19 +59,13 @@ func checkWord(word string, guess string) string {
 			last_index = -1
 		}
 
-		if word[i] == b {
-			// exact guess
-			buffer.WriteByte('O')
-		} else if idx := strings.IndexByte(word[last_index+1:], b); idx != -1 {
+		if idx := strings.IndexByte(word[last_index+1:], b); idx != -1 {
 			// byte in string at another position
-			found_indexes[b] = idx
-			buffer.WriteByte('?')
-		} else {
-			// byte not present
-			buffer.WriteByte('X')
+			found_indexes[b] = idx + last_index + 1
+			result[i] = '?'
 		}
 	}
-	return buffer.String()
+	return string(result)
 }
 
 func writeLine(out io.Writer, line []byte) {
@@ -76,6 +82,7 @@ func (p *LingoGame) PlayRound() (int, error) {
 
 	// start player program
 	player := exec.Command(p.playerProgram, p.arguments...)
+	player.Stderr = os.Stderr
 	stdin, err := player.StdinPipe()
 	if err != nil {
 		return 0, err
