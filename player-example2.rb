@@ -9,6 +9,8 @@ words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
   
   result = $stdin.gets.chomp
   
+  break if result =~ /^O+$/
+  
   # exclude last guess
   words.delete(guess)
   
@@ -20,6 +22,6 @@ words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
     words.reject! { |w| c == '?' && w.index(guess[i]).nil? }
     
     # exclude words containing wrong letters
-    words.reject! { |w| c == 'X' && !w.index(guess[i]).nil? }
+    # words.reject! { |w| c == 'X' && !w.index(guess[i]).nil? }
   end
 end
