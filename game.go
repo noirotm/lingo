@@ -75,9 +75,7 @@ func writeLine(out io.Writer, line []byte) {
 }
 
 // PlayRound runs the player program and plays a round till the word is found or no more attempts remain
-func (p *LingoGame) PlayRound() (int, error) {
-	// initialize round's word
-	currentWord := p.wordList.RandomWord()
+func (p *LingoGame) PlayRound(currentWord string) (int, error) {
 	fmt.Println("Starting new round, word is", currentWord)
 
 	// start player program
@@ -144,4 +142,10 @@ func (p *LingoGame) PlayRound() (int, error) {
 	}
 
 	return score, nil
+}
+
+// PlayRandomRound runs the player program and plays a round till a random word is found or no more attempts remain
+func (p *LingoGame) PlayRandomRound() (int, error) {
+	// initialize round's word
+	return p.PlayRound(p.wordList.RandomWord())
 }
