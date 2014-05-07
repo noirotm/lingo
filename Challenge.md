@@ -51,4 +51,4 @@ This question will be periodically updated with rankings for published answers s
 
 The official final evaluation will take place on the **1st of July**.
 
-[tag:king-of-the-hill] [tag:word] [tag:game]
+[tag:code-challenge] [tag:word] [tag:game]
