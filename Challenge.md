@@ -5,7 +5,7 @@ It is based on the concept of the Lingo TV show ([http://en.wikipedia.org/wiki/L
 
 ## Rules ##
 
-Given a word length given as the first argument on its command line, the player program disposes of **five** attempts to guess the word by writing a guess on its standard output followed by a single `\n` character. Guesses should only be comprised of alphabetic low-case characters (`[a-z]`).
+Given a word length passed as the first argument on its command line, the player program disposes of **five** attempts to guess the word by writing a guess on its standard output followed by a single `\n` character. 
 
 After a guess is made, the program receives a string on its standard input, also followed by a single `\n` character.
 
@@ -22,6 +22,7 @@ For example, if the word to guess is `cozies` and the program sends `tosses`, it
 
 Words are chosen from an english word list. If the word sent by the program is not a valid word of the correct length, the attempt is considered as an automatic failure and only `X`'s are returned.  
 The player program should assume that a file named `wordlist.txt` and containing one word per line is present in the current working directory, and can be read as necessary.  
+Guesses should only be comprised of alphabetic low-case characters (`[a-z]`).  
 No other network or file operations are allowed for the program.
 
 The game ends when a string only comprised of `O` is returned or after the program has made 5 attempts and was not able to guess the word.
@@ -32,7 +33,7 @@ The score of a game is given by the given formula:
 
     score = 100 * (6 - number_of_attempts)
 
-So if the word is guessed at first try, 500 points are given. The last try is worth 100 points.
+So if the word is correctly guessed on the first try, 500 points are given. The last try is worth 100 points.
 
 Failure to guess the word grants zero points.
 
