@@ -59,7 +59,7 @@ func checkWord(word string, guess string) string {
 			last_index = -1
 		}
 
-		if idx := strings.IndexByte(word[last_index+1:], b); idx != -1 {
+		if idx := strings.IndexByte(word[last_index+1:], b); idx != -1 && result[i] != 'O' {
 			// byte in string at another position
 			found_indexes[b] = idx + last_index + 1
 			result[i] = '?'

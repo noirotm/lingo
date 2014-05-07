@@ -19,6 +19,7 @@ var checks = []CheckEntry{
 	{"elephant", "zrzeeeee", "XXX??XXX"},
 	{"stories", "element", "?XXXXX?"},
 	{"cozies", "tosses", "XOXXOO"},
+	{"apathetic", "arbitrate", "OXX??X???"},
 }
 
 func TestCheckWord(t *testing.T) {
