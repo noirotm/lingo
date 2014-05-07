@@ -29,7 +29,7 @@ PLAYERS.each do |player|
     words[n].each do |word|
       output = `#{GAME_ENGINE} -word "#{word}" -player "#{player}"`
       m = output.split("\n")[-1].match(/(\d+) \/ (\d+)/)
-      length_score += m[1].to_i
+      length_score += m[1].to_i unless m.nil?
     end
     print "\t#{length_score}"
     player_score += length_score

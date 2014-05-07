@@ -22,7 +22,7 @@ PLAYERS.each do |player|
   LENGTHS.each do |n|
     output = `#{GAME_ENGINE} -rounds #{ROUNDS} -length #{n} -player "#{player}"`
     m = output.split("\n")[-1].match(/(\d+) \/ (\d+)/)
-    score = m[1].to_i
+    score = m.nil? ? 0 : m[1].to_i
     print "\t#{score}"
     player_score += score
   end
