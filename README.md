@@ -18,6 +18,7 @@ The `lingo` program accepts a few command line arguments:
 - `-program` the player program to run
 - `-length` the word length
 - `-rounds` the number of rounds to play
+- `-word` a specific word to guess, forces only one round to be played
 
 Example:
 
