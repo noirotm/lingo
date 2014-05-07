@@ -39,7 +39,8 @@ Failure to guess the word grants zero points.
 
 ## The pit ##
 
-Player programs will be evaluated by trying to have them guess **100** random words for each word length between 4 and 13 characters inclusively.
+Player programs will be evaluated by trying to have them guess **100** random words for each word length between 4 and 13 characters inclusively.  
+Random word selection will be done by advance so all entries will have to guess the same words.
 
 The winning program, and accepted answer, will be the one to reach the highest score.
 
