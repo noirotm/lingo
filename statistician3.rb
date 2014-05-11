@@ -33,24 +33,24 @@ end
   result.chars.each_with_index do |c, i|
     # exclude words not matching good guesses
     words.reject! { |w| c == 'O' && w[i] != guess[i] }
-  
-    # exclude words not containing misplaced letters
-    words.reject! { |w| c == '?' && !w.include?(guess[i]) }
   end
   
   next if guess.nil?
-  
-  result.gsub!("O", "?")
+
   occurs = Hash.new {|h,k| h[k] = Hash.new {|h,k| h[k] = 0 } }
   guess.chars.each_with_index do |c, i|
     occurs[c][result[i]] += 1
   end
-  #$stderr.puts occurs
+  $stderr.puts occurs
   occurs.each do |c, res|
-    if !res.include?('?')
+    if !res.include?('?') && !res.include?('O')
       words.reject! { |w| w.include?(c) }
     elsif res.include?('?') && res.include?('X')
       words.reject! { |w| w.scan(c).length > res['?'] }
+    elsif res.include?('O') && res.include?('X')
+      words.reject! { |w| w.scan(c).length > res['O'] }
     end
   end
+  
+  $stderr.puts words.inspect
 end
