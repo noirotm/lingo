@@ -32,7 +32,7 @@ Just as above, but only one round will be played with the given word to be guess
 
 ## Evaluating an entry ##
 
-Edit the `pit.rb` file to add your entry.
+Edit the [players.txt](players.txt) file to add your entry, then run the ruby script [pit.rb](pit.rb).
 
 Your program will be run in the current directory and will be given the length of the word to guess as first argument on the command line.
 

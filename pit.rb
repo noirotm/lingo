@@ -1,10 +1,6 @@
 require 'rbconfig'
 
-PLAYERS = [
-  "ruby player-example.rb",
-  "ruby player-example2.rb",
-  "ruby player-example3.rb"
-]
+PLAYERS = File.read("players.txt").split("\n")
 LENGTHS = 4..13
 ROUNDS = 100
 
