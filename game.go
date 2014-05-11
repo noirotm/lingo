@@ -40,29 +40,22 @@ func NewGame(wordLength int, wordList WordList, playerProgram string) *LingoGame
 // checkWord determines the letters that are placed correctly or not within the guess
 func checkWord(word string, guess string) string {
 	result := bytes.Repeat([]byte("X"), len(word))
-	found_indexes := make(map[byte]int)
+	wordBuffer := []byte(word)
 
 	// check for correct guesses
 	for i, b := range []byte(guess) {
-		if word[i] == b {
+		if wordBuffer[i] == b {
 			// exact guess
-			found_indexes[b] = i
 			result[i] = 'O'
+			wordBuffer[i] = '_'
 		}
 	}
 
 	// check for misplaced guesses
 	for i, b := range []byte(guess) {
-		// last index where the letter was found
-		last_index, ok := found_indexes[b]
-		if !ok {
-			last_index = -1
-		}
-
-		if idx := strings.IndexByte(word[last_index+1:], b); idx != -1 && result[i] != 'O' {
-			// byte in string at another position
-			found_indexes[b] = idx + last_index + 1
+		if idx := bytes.IndexByte(wordBuffer, b); idx != -1 && result[i] != 'O' {
 			result[i] = '?'
+			wordBuffer[idx] = '_'
 		}
 	}
 	return string(result)

@@ -20,12 +20,13 @@ var checks = []CheckEntry{
 	{"stories", "element", "?XXXXX?"},
 	{"cozies", "tosses", "XOXXOO"},
 	{"apathetic", "arbitrate", "OXX??X???"},
+	{"essentially", "pedestaling", "X?XO?O????X"},
 }
 
 func TestCheckWord(t *testing.T) {
 	for _, entry := range checks {
 		if res := checkWord(entry.word, entry.guess); res != entry.expectedMask {
-			t.Error(res, "!=", entry.expectedMask)
+			t.Error(entry.word, "->", entry.guess, ":", res, "!=", entry.expectedMask)
 		}
 	}
 }
