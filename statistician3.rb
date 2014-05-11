@@ -41,7 +41,7 @@ end
   guess.chars.each_with_index do |c, i|
     occurs[c][result[i]] += 1
   end
-  $stderr.puts occurs
+
   occurs.each do |c, res|
     if !res.include?('?') && !res.include?('O')
       words.reject! { |w| w.include?(c) }
@@ -51,6 +51,4 @@ end
       words.reject! { |w| w.scan(c).length > res['O'] }
     end
   end
-  
-  $stderr.puts words.inspect
 end
