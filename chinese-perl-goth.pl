@@ -18,11 +18,11 @@ sub read_cached_wordlist ($) {
     my ($len) = @_;
     my $stor = "./wordlist.len$len.stor";
     if (-e $stor) {
-    retrieve $stor
+        retrieve $stor
     } else {
-    my $wl = read_wordlist $len;
-    store $wl, $stor;
-    $wl
+        my $wl = read_wordlist $len;
+        store $wl, $stor;
+        $wl
     }
 }
 
@@ -30,7 +30,7 @@ sub build_histogram ($) {
     my ($wl) = @_;
     my %histo = ();
     for my $word (@$wl) {
-    $histo{$_}++ for ($word =~ /./g);
+        $histo{$_}++ for ($word =~ /./g);
     }
     \%histo
 }
@@ -40,10 +40,10 @@ sub score_word ($$) {
     my $score = 0;
     my %seen = ();
     for my $l ($word =~ /./g) {
-    if (not exists $seen{$l}) {
-        $score += $histo->{$l};
-        $seen{$l} = 1;
-    }
+        if (not exists $seen{$l}) {
+            $score += $histo->{$l};
+            $seen{$l} = 1;
+        }
     }
     $score
 }
@@ -51,13 +51,13 @@ sub score_word ($$) {
 sub find_best_word ($$) {
     my ($wl, $histo) = @_;
     my @found = (sort { $b->[0] <=> $a->[0] } 
-         map [ score_word($_, $histo), $_ ], @$wl);
+                 map [ score_word($_, $histo), $_ ], @$wl);
     return undef unless @found;
     my $maxscore = $found[0]->[0];
     my @max;
     for (@found) {
-    last if $_->[0] < $maxscore;
-    push @max, $_->[1];
+        last if $_->[0] < $maxscore;
+        push @max, $_->[1];
     }
     $max[rand @max]
 }
@@ -95,31 +95,31 @@ sub update_conds ($$$$) {
     my %Xes;
     %Xes = ();
     for my $pos (reverse 0..$len-1) {
-    my $r = substr $reply, $pos, 1;
-    my $ch = substr $word, $pos, 1;
+        my $r = substr $reply, $pos, 1;
+        my $ch = substr $word, $pos, 1;
 
-    if ($r eq 'O') {
-        $conds->[$pos] = [$ch]
-    }
+        if ($r eq 'O') {
+            $conds->[$pos] = [$ch]
+        }
 
-    elsif ($r eq '?') {
-        for my $a (0..$len-1) {
-        if ($a == $pos) {
-            remove_cond $conds, $a, $ch
-        } else {
-            unless (exists $Xes{$a} and $Xes{$a} eq $ch) {
-            add_cond($conds, $a, $ch);
-            }
+        elsif ($r eq '?') {
+            for my $a (0..$len-1) {
+                if ($a == $pos) {
+                    remove_cond $conds, $a, $ch
+                } else {
+                    unless (exists $Xes{$a} and $Xes{$a} eq $ch) {
+                        add_cond($conds, $a, $ch);
+                    }
+                }
             }
         }
-    }
 
-    elsif ($r eq 'X') {
-        $Xes{$pos} = $ch;
-        for my $a (0..$len-1) {
-        remove_cond $conds, $a, $ch
+        elsif ($r eq 'X') {
+            $Xes{$pos} = $ch;
+            for my $a (0..$len-1) {
+                remove_cond $conds, $a, $ch
+            }
         }
-    }
     }
 }
 
@@ -135,16 +135,16 @@ sub filter_wordlist_by_reply ($$$) {
     my $newwl = [];
     my $len = length $reply;
     for my $pos (0..$len-1) {
-    my $r = substr $reply, $pos, 1;
-    my $ch = substr $word, $pos, 1;
-    next unless $r eq '?';
-    for my $a (0..$len-1) {
-        if ($a != $pos) {
-        if ('O' ne substr $reply, $a, 1) {
-            push @$newwl, grep { $ch eq substr $_, $a, 1 } @$wl
+        my $r = substr $reply, $pos, 1;
+        my $ch = substr $word, $pos, 1;
+        next unless $r eq '?';
+        for my $a (0..$len-1) {
+            if ($a != $pos) {
+                if ('O' ne substr $reply, $a, 1) {
+                    push @$newwl, grep { $ch eq substr $_, $a, 1 } @$wl
+                }
+            }
         }
-        }
-    }
     }
     uniq $newwl
 }
