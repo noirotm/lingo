@@ -15,18 +15,18 @@ The file [wordlist.txt](wordlist.txt) is an extensive list of english words to b
 
 The `lingo` program accepts a few command line arguments:
 
-- `-program` the player program to run
+- `-player` the player program to run
 - `-length` the word length
 - `-rounds` the number of rounds to play
 - `-word` a specific word to guess, forces only one round to be played
 
 Examples:
 
-    ./lingo -program "ruby player-example.rb" -length 10 -rounds 5
+    ./lingo -player "ruby player-example.rb" -length 10 -rounds 5
 
 This will display the detail of words and guesses, as well as each round's score and the total score.
 
-    ./lingo -program "./my_test_player" -word "tortoise"
+    ./lingo -player "./my_test_player" -word "tortoise"
 
 Just as above, but only one round will be played with the given word to be guessed.
 
