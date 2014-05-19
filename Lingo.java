@@ -111,26 +111,6 @@ class Lingo{
         return result;
     }
 
-    public static int countConfusion(String response){
-        return response.length() - response.replace("?", "").length();
-    }
-
-    public static double computeEntropy(ArrayList<String> candidates, String guess, String response){
-        int matching = 0;
-        int confusion = 0;
-        for(String candidate: candidates){
-            String curResponse = getResponse(candidate, guess);
-            if(response.equals(getResponse(candidate, guess))){
-                matching++;
-                confusion += countConfusion(curResponse);
-            }
-        }
-        int size = candidates.size();
-        double pA = 1.0*matching/size;
-        double pB = 1.0-pA;
-        return -confusion*(pA*Math.log(pA) + pB*Math.log(pB));
-    }
-
     public static String[] getSample(ArrayList<String> words, int size){
         String[] result = new String[size];
         int[] indices = new int[words.size()];
@@ -155,27 +135,26 @@ class Lingo{
         if(firstGuess && guessBestList[wordlen].length()==wordlen){
             return guessBestList[wordlen];
         }
-        double minEntropy = Integer.MAX_VALUE;
+        int minMatches = Integer.MAX_VALUE;
         String[] words;
-        if(wordlen > 6){
-            if(lastGuess || candidates.size() < 25){
-                words = candidates.toArray(new String[0]);
-            } else {
-                words = bestWords(wordlist.get(wordlen), candidates, 25);
-            }
-            for(String guess: words){
-                double sumEntropy = 0;
-                for(String word: candidates){
-                    sumEntropy += computeEntropy(candidates, guess, getResponse(word, guess));
-                }
-                if(sumEntropy < minEntropy){
-                    minGuess = guess;
-                    minEntropy = sumEntropy;
-                }
-            }
+        if(lastGuess){
+            words = candidates.toArray(new String[0]);
+        } else if (candidates.size()>10){
+            words = bestWords(wordlist.get(wordlen), candidates, 25);
         } else {
-            words = bestWords(wordlist.get(wordlen), candidates, 1);
-            minGuess = words[0];
+            words = wordlist.get(wordlen).toArray(new String[0]);
+        }
+        for(String guess: words){
+            double sumMatches = 0;
+            for(String word: candidates){
+                int matches = countMatchingCandidates(candidates, guess, getResponse(word, guess));
+                if(matches == 0) matches = candidates.size();
+                sumMatches += (matches-1)*(matches-1);
+            }
+            if(sumMatches < minMatches){
+                minGuess = guess;
+                minMatches = sumMatches;
+            }
         }
         return minGuess;
     }
