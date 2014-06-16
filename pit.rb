@@ -2,7 +2,7 @@ require 'rbconfig'
 
 PLAYERS = File.read("players.txt").split("\n")
 LENGTHS = 4..13
-ROUNDS = 10
+ROUNDS = 100
 
 is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 GAME_ENGINE = is_windows ? 'lingo.exe' : './lingo'
