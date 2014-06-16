@@ -1,7 +1,7 @@
 $stdout.sync = true
 len = ARGV[0].to_i
 
-words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
+words = File.read("wordlist#{len}.txt").split("\n")
 
 # function to find good words in the list
 def good_word(wordlist)
