@@ -6,3 +6,4 @@ ruby statistician2.rb
 ruby statistician3.rb
 d:\Programmes\Perl\bin\perl.exe chinese-perl-goth.pl
 java Lingo
+edc65
