@@ -1,3 +1,6 @@
+ruby player-example.rb
+ruby player-example2.rb
+ruby player-example3.rb
 ruby statistician.rb
 ruby statistician2.rb
 ruby statistician3.rb

@@ -1,7 +1,7 @@
 $stdout.sync = true
 len = ARGV[0].to_i
 
-words = File.read("wordlist.txt").split("\n").select { |w| w.length == len }
+words = File.read("wordlist#{len}.txt").split("\n")
 
 5.times do
   # we need a good word to guess, namely one with great letter
