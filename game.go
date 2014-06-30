@@ -16,24 +16,26 @@ const MAX_ATTEMPTS = 5
 
 // LingoGame represents the game itself
 type LingoGame struct {
-	wordLength    int
-	wordList      WordList
-	playerProgram string
-	arguments     []string
+	wordLength     int
+	wordList       WordList
+	playerProgram  string
+	arguments      []string
+	redirectStderr bool
 }
 
 // NewGame creates a new Lingo game
-func NewGame(wordLength int, wordList WordList, playerProgram string) *LingoGame {
+func NewGame(wordLength int, wordList WordList, playerProgram string, debug bool) *LingoGame {
 	cmdLine := strings.Fields(playerProgram)
 	program := cmdLine[0]
 	arguments := cmdLine[1:len(cmdLine)]
 	arguments = append(arguments, strconv.Itoa(wordLength))
 
 	return &LingoGame{
-		wordLength:    wordLength,
-		wordList:      wordList,
-		playerProgram: program,
-		arguments:     arguments,
+		wordLength:     wordLength,
+		wordList:       wordList,
+		playerProgram:  program,
+		arguments:      arguments,
+		redirectStderr: debug,
 	}
 }
 
@@ -73,7 +75,11 @@ func (p *LingoGame) PlayRound(currentWord string) (int, error) {
 
 	// start player program
 	player := exec.Command(p.playerProgram, p.arguments...)
-	player.Stderr = os.Stderr
+
+	if p.redirectStderr {
+		player.Stderr = os.Stderr
+	}
+
 	stdin, err := player.StdinPipe()
 	if err != nil {
 		return 0, err

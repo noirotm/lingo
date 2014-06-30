@@ -10,6 +10,7 @@ var (
 	player     string
 	wordLength int
 	word       string
+	debug      bool
 )
 
 func init() {
@@ -17,6 +18,7 @@ func init() {
 	flag.IntVar(&wordLength, "length", 5, "word length")
 	flag.StringVar(&player, "player", "", "player program to execute")
 	flag.StringVar(&word, "word", "", "optional word to guess, forces only one round and word length")
+	flag.BoolVar(&debug, "debug", false, "enable display of output from the player to stderr")
 }
 
 func main() {
@@ -44,7 +46,7 @@ func main() {
 		return
 	}
 
-	game := NewGame(wordLength, wordList, player)
+	game := NewGame(wordLength, wordList, player, debug)
 
 	totalScore := 0
 
